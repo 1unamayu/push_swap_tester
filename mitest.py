@@ -29,7 +29,8 @@ class TEST:
 	
 	def do_test(self):
 		self.shuffle_list()
-		self.status = os.popen(self.program + self.string + self.test + self.string).read()
+		self.status = os.popen(self.program +'"'+ self.string +'"'+ self.test + self.string).read()
+		self.leaks = os.popen("valgrind "+self.program +'"'+ self.string +'"'+ self.test + self.string).read()
 		self.cont = os.popen(self.program + self.string +"| wc -l").read()
 		if (self.status[0] == "O"):
 			self.resultados.append(int(self.cont))
@@ -60,10 +61,6 @@ parser.add_argument('--size', type=int, default=0,
 
 args = parser.parse_args()
 
-
-
-
-
 if (args.size !=0):
 	l = LISTA(-100, args.size-100, 1)
 	x = TEST(args.size, l)
@@ -79,7 +76,9 @@ else:
 			x.do_test()
 		x.print_output()
 
+
 print(x.string)	
+print(x.leaks)
 resultados =[]
 medias = []
 limitx=[1,3,5, 100, 500]
