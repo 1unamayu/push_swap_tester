@@ -9,11 +9,11 @@
   <line>Memcheck, a memory error detector</line>
   <line>Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.</line>
   <line>Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info</line>
-  <line>Command: ./push_swap 1 0 5</line>
+  <line>Command: ./push_swap -24 -91 -90 -57 -22 -86 -56 -29 -99 -59 -31 -93 -34 -94 -32 -78 -43 -30 -87 -12 -64 -19 -97 -98 -40 -74 -26 -49 -60 -47 -96 -81 -66 -17 -14 -54 -85 -76 -70 -71 -55 -73 -48 -16 -23 -80 -83 -52 -41 -72 -77 -42 -39 -79 -84 -65 -58 -100 -37 -89 -13 -25 -68 -82 -88 -61 -67 -44 -18 -46 -35 -27 -95 -45 -21 -38 -11 -28 -75 -51 -53 -92 -36 -20 -15 -33 -69 -63 -50 -62</line>
 </preamble>
 
-<pid>14115</pid>
-<ppid>9440</ppid>
+<pid>3003</pid>
+<ppid>3002</ppid>
 <tool>memcheck</tool>
 
 <args>
@@ -24,19 +24,44 @@
   </vargv>
   <argv>
     <exe>./push_swap</exe>
-    <arg>1 0 5</arg>
+    <arg>-24 -91 -90 -57 -22 -86 -56 -29 -99 -59 -31 -93 -34 -94 -32 -78 -43 -30 -87 -12 -64 -19 -97 -98 -40 -74 -26 -49 -60 -47 -96 -81 -66 -17 -14 -54 -85 -76 -70 -71 -55 -73 -48 -16 -23 -80 -83 -52 -41 -72 -77 -42 -39 -79 -84 -65 -58 -100 -37 -89 -13 -25 -68 -82 -88 -61 -67 -44 -18 -46 -35 -27 -95 -45 -21 -38 -11 -28 -75 -51 -53 -92 -36 -20 -15 -33 -69 -63 -50 -62</arg>
   </argv>
 </args>
 
 <status>
   <state>RUNNING</state>
-  <time>00:00:00:00.147 </time>
+  <time>00:00:00:00.138 </time>
 </status>
+
+<fatal_signal>
+  <tid>1</tid>
+  <signo>2</signo>
+  <signame>SIGINT</signame>
+  <sicode>128</sicode>
+  <siaddr>0x0</siaddr>
+  <stack>
+    <frame>
+      <ip>0x10B17B</ip>
+      <obj>/home/xamayuel/push_swap_tester/push_swap</obj>
+      <fn>ft_strlen</fn>
+    </frame>
+    <frame>
+      <ip>0x10B430</ip>
+      <obj>/home/xamayuel/push_swap_tester/push_swap</obj>
+      <fn>ft_split</fn>
+    </frame>
+    <frame>
+      <ip>0x1091BB</ip>
+      <obj>/home/xamayuel/push_swap_tester/push_swap</obj>
+      <fn>main</fn>
+    </frame>
+  </stack>
+</fatal_signal>
 
 
 <status>
   <state>FINISHED</state>
-  <time>00:00:00:00.475 </time>
+  <time>00:00:00:00.527 </time>
 </status>
 
 <errorcounts>

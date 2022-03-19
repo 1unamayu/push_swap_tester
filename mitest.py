@@ -6,6 +6,8 @@ from tqdm import tqdm
 from matplotlib import pyplot as plt
 import argparse
 from colorama import init,Fore, Back, Style
+import random
+from xml.dom import minidom
 
 class LISTA:
 	def __init__(self, start, end, step):
@@ -22,6 +24,7 @@ class TEST:
 		self.final = "OK"
 		self.bien = 0
 		self.mal = 0
+		self.n_leaks = 0
 		
 	def shuffle_list(self):
 		random.shuffle(self.l)
@@ -29,36 +32,57 @@ class TEST:
 	
 	def do_test(self):
 		self.shuffle_list()
-		self.status = os.popen(self.program +'"'+ self.string +'"'+ self.test + self.string).read()
-		self.leaks = os.popen("valgrind "+self.program +'"'+ self.string +'"'+ self.test + self.string).read()
+		if random.choice([True, False]):
+			self.status = os.popen(self.program +'"'+ self.string +'"'+ self.test + self.string).read()
+		else:
+			self.status = os.popen(self.program +self.string + self.test + self.string).read()
 		self.cont = os.popen(self.program + self.string +"| wc -l").read()
 		if (self.status[0] == "O"):
 			self.resultados.append(int(self.cont))
 			self.bien = self.bien + 1
 		if (self.status[0] == "K"):
-			print(l)
 			self.final = "FAIL"
 			self.mal = self.mal + 1
 	
+	def check_leaks(self):
+		self.leaks = os.popen("valgrind --xml=yes --xml-file=log.xml "+self.program +'"'+ self.string +'"'+ self.test + self.string).read()
+		self.compute_leaks()
+		self.leaks = os.popen("valgrind --xml=yes --xml-file=log.xml "+self.program + self.string + self.test + self.string).read()
+		self.compute_leaks()
+
+	def compute_leaks(self):
+		self.mydoc = minidom.parse('log.xml')
+		self.items = self.mydoc.getElementsByTagName('count')
+		try:
+			self.items[0].firstChild.data
+			self.n_leaks = self.n_leaks + 1
+		except:
+			self.n_leaks = self.n_leaks
+		
 	def print_output(self):
 		print(Fore.BLUE , end =" ")
-		print(f'{len(self.l)} random number TEST:', end =" ")
+		print(f'{len(self.l):>5} random number TEST:', end =" ")
 		if (self.final == "OK"):
 			print(Fore.GREEN + "OK", end =" ")
 			print(f'[{self.bien}]', end =" ")
 			print("\t ", end =" ")
-			print(Fore.WHITE + "MOVEMENTS: AVG(",round(statistics.mean(self.resultados)), end ="")
-			print(") MIN(", min(self.resultados), end ="")
-			print(") MAX(", max(self.resultados), ")")
+			print(Fore.WHITE + "MOVEMENTS: avg:"+ f'{round(statistics.mean(self.resultados)):<5}', end ="")
+			print("   min:"+ f'{min(self.resultados):<5}' + "   max:"+ f'{max(self.resultados):<5}', end ="")
 		else:
 			print(Fore.GREEN + "FAIL")
+
+	def print_leaks(self):
+		if (self.n_leaks == 0):
+			print(Fore.GREEN, end =" ")
+			print("NO LEAKS FOUND!!")
+		else:
+			print(Fore.RED, end =" ")
+			print("LEAKS FOUND!!")
 
 parser = argparse.ArgumentParser(description='42 push_swap tester.')
 parser.add_argument('integers', metavar='N', type=int, nargs='+',help='number of test')
 parser.add_argument('--size', type=int, default=0,
                     help='only check stacks of this size')
-
-
 args = parser.parse_args()
 
 if (args.size !=0):
@@ -67,6 +91,8 @@ if (args.size !=0):
 	for n in range(0,args.integers[0]):
 		x.do_test()
 	x.print_output()
+	x.check_leaks()
+	x.print_leaks()
 else:
 	test_valores = [2,3,5,10,15,20,25,30,35,40,45,50,60,70,80,90, 100,200,300,400,500]
 	for up in test_valores:
@@ -75,10 +101,12 @@ else:
 		for n in range(0,args.integers[0]):
 			x.do_test()
 		x.print_output()
+		x.check_leaks()
+		x.print_leaks()
 
 
-print(x.string)	
-print(x.leaks)
+
+
 resultados =[]
 medias = []
 limitx=[1,3,5, 100, 500]

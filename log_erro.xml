@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<valgrindoutput>
+
+<protocolversion>4</protocolversion>
+<protocoltool>memcheck</protocoltool>
+
+<preamble>
+  <line>Memcheck, a memory error detector</line>
+  <line>Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.</line>
+  <line>Using Valgrind-3.16.1 and LibVEX; rerun with -h for copyright info</line>
+  <line>Command: ./push_swap -96 -94 -82 -91 -90 -97 -85 -99 -100 -87 -93 -84 -89 -81 -83 -95 -92 -88 -98 -86</line>
+</preamble>
+
+<pid>15811</pid>
+<ppid>15810</ppid>
+<tool>memcheck</tool>
+
+<args>
+  <vargv>
+    <exe>/usr/bin/valgrind.bin</exe>
+    <arg>--xml=yes</arg>
+    <arg>--xml-file=log.xml</arg>
+  </vargv>
+  <argv>
+    <exe>./push_swap</exe>
+    <arg>-96 -94 -82 -91 -90 -97 -85 -99 -100 -87 -93 -84 -89 -81 -83 -95 -92 -88 -98 -86</arg>
+  </argv>
+</args>
+
+<status>
+  <state>RUNNING</state>
+  <time>00:00:00:00.149 </time>
+</status>
+
+
+<status>
+  <state>FINISHED</state>
+  <time>00:00:00:00.476 </time>
+</status>
+
+<errorcounts>
+</errorcounts>
+
+<suppcounts>
+</suppcounts>
+
+</valgrindoutput>
+
