@@ -78,12 +78,19 @@ class TEST:
 		else:
 			print(Fore.RED, end =" ")
 			print("LEAKS FOUND!!")
-
+			
+	def points(self):
+		if self.size == 5:
+			if max(self.resultados) > 2:
+				print(Fore.RED+" FAIL!! MAXIMUM 12 movs ALLOWED")
 parser = argparse.ArgumentParser(description='42 push_swap tester.')
 parser.add_argument('integers', metavar='N', type=int, nargs='+',help='number of test')
 parser.add_argument('--size', type=int, default=0,
-                    help='only check stacks of this size')
+                    help='only check stacks of this size')				
+parser.add_argument("--leaks", default=False, action="store_true",
+                    help="check leaks with valgrind")
 args = parser.parse_args()
+
 
 if (args.size !=0):
 	l = LISTA(-100, args.size-100, 1)
@@ -91,8 +98,12 @@ if (args.size !=0):
 	for n in range(0,args.integers[0]):
 		x.do_test()
 	x.print_output()
-	x.check_leaks()
-	x.print_leaks()
+	if args.leaks == True:
+		x.check_leaks()
+		x.print_leaks()
+	else:
+		print("")
+	x.points()
 else:
 	test_valores = [2,3,5,10,15,20,25,30,35,40,45,50,60,70,80,90, 100,200,300,400,500]
 	for up in test_valores:
@@ -101,10 +112,12 @@ else:
 		for n in range(0,args.integers[0]):
 			x.do_test()
 		x.print_output()
-		x.check_leaks()
-		x.print_leaks()
-
-
+		if args.leaks == True:
+			x.check_leaks()
+			x.print_leaks()
+		else:
+			print("")
+		x.points()
 
 
 resultados =[]
